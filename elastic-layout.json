@@ -8,28 +8,10 @@
         "layouts": [],
         "containers": [
           {
-            "title": "voltage",
-            "x": 64.0,
-            "y": 320.0,
-            "width": 1600.0,
-            "height": 320.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/SmartDashboard/voltage",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 30.0,
-              "min_value": 0.0,
-              "max_value": 12.0,
-              "color": 4278238420,
-              "line_width": 2.0
-            }
-          },
-          {
             "title": "velocity",
             "x": 64.0,
             "y": 0.0,
-            "width": 1600.0,
+            "width": 1472.0,
             "height": 320.0,
             "type": "Graph",
             "properties": {
@@ -37,36 +19,54 @@
               "period": 0.033,
               "data_type": "double",
               "time_displayed": 30.0,
+              "min_value": 0.0,
+              "max_value": 2500.0,
               "color": 4278238420,
               "line_width": 2.0
             }
           },
           {
-            "title": "kS",
-            "x": 1664.0,
-            "y": 64.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
+            "title": "setpoint",
+            "x": 64.0,
+            "y": 320.0,
+            "width": 1472.0,
+            "height": 320.0,
+            "type": "Graph",
             "properties": {
-              "topic": "/SmartDashboard/kS",
-              "period": 0.06,
+              "topic": "/SmartDashboard/setpoint",
+              "period": 0.033,
               "data_type": "double",
-              "show_submit_button": false
+              "time_displayed": 30.0,
+              "min_value": 0.0,
+              "max_value": 2500.0,
+              "color": 4278238420,
+              "line_width": 2.0
             }
           },
           {
-            "title": "kV",
-            "x": 1664.0,
-            "y": 192.0,
-            "width": 128.0,
+            "title": "setpoint",
+            "x": 1536.0,
+            "y": 320.0,
+            "width": 192.0,
             "height": 128.0,
-            "type": "Text Display",
+            "type": "Large Text Display",
             "properties": {
-              "topic": "/SmartDashboard/kV",
+              "topic": "/SmartDashboard/setpoint",
               "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": false
+              "data_type": "double"
+            }
+          },
+          {
+            "title": "velocity",
+            "x": 1536.0,
+            "y": 192.0,
+            "width": 192.0,
+            "height": 128.0,
+            "type": "Large Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/velocity",
+              "period": 0.06,
+              "data_type": "double"
             }
           }
         ]

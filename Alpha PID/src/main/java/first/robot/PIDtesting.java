@@ -15,35 +15,33 @@ import org.wpilib.units.Units;
 
 @Teleop
 @Logged
-public class CalibrateMotor extends PeriodicOpMode {
+public class PIDtesting extends PeriodicOpMode {
 
-  static final double VOLTAGE_STEP = 0.01;
+  static final double MAX_VELOCITY = 2500;
 
   final Robot robot;
   Gamepad gamepad1;
   ExpansionHubMotor frontLeftDrive;
 
-  double  commandedVoltage  = 0;
   double  commandedVelocity = 0;
   double  measuredVelocity  = 0;
-  double  kS = 0;
-  double  kV = 0;
+  final double  kS = 0.5;
+  final double  kV = 0.004;
   
-  public CalibrateMotor(Robot robot, DefaultUserControls userControls) {
+  public PIDtesting(Robot robot, DefaultUserControls userControls) {
     this.robot = robot;
     gamepad1 = userControls.getGamepad(0);
 
     // setup actuators
-    frontLeftDrive = robot.motor2;
-    frontLeftDrive.setDistancePerCount(1.0);
+    frontLeftDrive = robot.motor0;
+    frontLeftDrive.setDistancePerCount(1);
+    frontLeftDrive.getVelocityConstants().setPID(.007, 0, 0).setFF(kS, kV, 0);
   }
 
   @Override
   public void start() {
-    commandedVoltage  = 0;
+    commandedVelocity = 0;
     measuredVelocity  = 0;
-    kS = 0;
-    kV = 0;
   }
 
   @Override
@@ -54,23 +52,18 @@ public class CalibrateMotor extends PeriodicOpMode {
 
       measuredVelocity = frontLeftDrive.getEncoderVelocity();
 
-      if ((kS == 0) && (measuredVelocity > 0)) {
-        kS = commandedVoltage;
-      }
 
-      if (commandedVoltage >= 10) {
-        kV = (10.0 - kS) / (measuredVelocity);
-      } else {
-        commandedVoltage += VOLTAGE_STEP;
-      }
-
-      SmartDashboard.putNumber("voltage",  commandedVoltage);
+      SmartDashboard.putNumber("setpoint", commandedVelocity);
       SmartDashboard.putNumber("velocity", measuredVelocity);
-      SmartDashboard.putNumber("kS", kS);
-      SmartDashboard.putNumber("kV", kV);
 
-      frontLeftDrive.setVoltage(Units.Volt.of(commandedVoltage));  
-      
+      // commandedVelocity =  -gamepad1.getLeftY() * MAX_VELOCITY;
+      if (gamepad1.getNorthFaceButtonPressed()) {
+        commandedVelocity += 500;
+      } else if (gamepad1.getSouthFaceButtonPressed()) {
+        commandedVelocity -= 500;
+      }
+
+      frontLeftDrive.setVelocitySetpoint(commandedVelocity);
     } else {
       frontLeftDrive.setVoltage(Units.Volt.of(0));  
     }
@@ -80,4 +73,4 @@ public class CalibrateMotor extends PeriodicOpMode {
 // stashed code
 // frontLeftDrive.setThrottle(-gamepad1.getLeftY());   // works OK
 // frontLeftDrive.setVelocitySetpoint(-gamepad1.getLeftY());
-// frontLeftDrive.getVelocityConstants().setPID(0, 0, 0).setFF(0.5, 0.004);
+// frontLeftDrive.getVelocityConstants().setPID(0, 0, 0).setFF(0.5, 11.5 / 2500.0, 0);
