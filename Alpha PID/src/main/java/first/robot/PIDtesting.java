@@ -18,24 +18,25 @@ import org.wpilib.units.Units;
 public class PIDtesting extends PeriodicOpMode {
 
   static final double MAX_VELOCITY = 2500;
+  static final double kS = 0.5;
+  static final double kV = 0.004;
+  static final double kP = 0.006;
+  static final double kI = 0.1;  //  <<<   doesn't seem to have any effect
+  static final double kD = 0.0;
 
   final Robot robot;
   Gamepad gamepad1;
   ExpansionHubMotor frontLeftDrive;
-
-  double  commandedVelocity = 0;
-  double  measuredVelocity  = 0;
-  final double  kS = 0.5;
-  final double  kV = 0.004;
+  double commandedVelocity = 0;
+  double measuredVelocity  = 0;
   
   public PIDtesting(Robot robot, DefaultUserControls userControls) {
     this.robot = robot;
-    gamepad1 = userControls.getGamepad(0);
 
     // setup actuators
     frontLeftDrive = robot.motor0;
     frontLeftDrive.setDistancePerCount(1);
-    frontLeftDrive.getVelocityConstants().setPID(.007, 0, 0).setFF(kS, kV, 0);
+    frontLeftDrive.getVelocityConstants().setPID(kP, kI, kD).setFF(kS, kV, 0);
   }
 
   @Override
@@ -47,11 +48,10 @@ public class PIDtesting extends PeriodicOpMode {
   @Override
   public void periodic() {
 
-    // Ramp up voltage to measure velocity response.
+    // Step target velocity up and down with gamepad Y and A
     if (robot.isEnabled()) {
 
       measuredVelocity = frontLeftDrive.getEncoderVelocity();
-
 
       SmartDashboard.putNumber("setpoint", commandedVelocity);
       SmartDashboard.putNumber("velocity", measuredVelocity);
@@ -69,8 +69,3 @@ public class PIDtesting extends PeriodicOpMode {
     }
   }
 }
-
-// stashed code
-// frontLeftDrive.setThrottle(-gamepad1.getLeftY());   // works OK
-// frontLeftDrive.setVelocitySetpoint(-gamepad1.getLeftY());
-// frontLeftDrive.getVelocityConstants().setPID(0, 0, 0).setFF(0.5, 11.5 / 2500.0, 0);
