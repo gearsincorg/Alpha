@@ -17,12 +17,15 @@ import org.wpilib.units.Units;
 @Logged
 public class PIDtesting extends PeriodicOpMode {
 
-  static final double MAX_VELOCITY = 2500;
-  static final double kS = 0.5;
-  static final double kV = 0.004;
-  static final double kP = 0.006;
-  static final double kI = 0.1;  //  <<<   doesn't seem to have any effect
-  static final double kD = 0.0;
+  // Set this value to be appropriate for your motor/gearing.
+  static final double DISTANCE_PER_COUNT = 0.01; 
+
+  static final double MAX_VELOCITY = 2600 / DISTANCE_PER_COUNT;  // Gobilda
+  static final double kS = 0.5   ;
+  static final double kV = 0.004 / DISTANCE_PER_COUNT;
+  static final double kP = 0.002 / DISTANCE_PER_COUNT;
+  static final double kI = 0.02  / DISTANCE_PER_COUNT;  
+  static final double kD = 0.0   / DISTANCE_PER_COUNT;
 
   final Robot robot;
   Gamepad gamepad1;
@@ -32,11 +35,13 @@ public class PIDtesting extends PeriodicOpMode {
   
   public PIDtesting(Robot robot, DefaultUserControls userControls) {
     this.robot = robot;
+    gamepad1 = userControls.getGamepad(0);
 
     // setup actuators
-    frontLeftDrive = robot.motor0;
-    frontLeftDrive.setDistancePerCount(1);
+    frontLeftDrive = robot.motor2;
+    frontLeftDrive.setDistancePerCount(DISTANCE_PER_COUNT);
     frontLeftDrive.getVelocityConstants().setPID(kP, kI, kD).setFF(kS, kV, 0);
+    frontLeftDrive.getPositionConstants().setS(kS);
   }
 
   @Override
@@ -55,14 +60,16 @@ public class PIDtesting extends PeriodicOpMode {
 
       SmartDashboard.putNumber("setpoint", commandedVelocity);
       SmartDashboard.putNumber("velocity", measuredVelocity);
+      SmartDashboard.putNumber("output",   frontLeftDrive.getCurrent().baseUnitMagnitude());
 
-      // commandedVelocity =  -gamepad1.getLeftY() * MAX_VELOCITY;
+      // step the requested velocity
       if (gamepad1.getNorthFaceButtonPressed()) {
-        commandedVelocity += 500;
+        commandedVelocity += 500 * DISTANCE_PER_COUNT;
       } else if (gamepad1.getSouthFaceButtonPressed()) {
-        commandedVelocity -= 500;
+        commandedVelocity -= 500 * DISTANCE_PER_COUNT;
       }
 
+      // set the target velocity
       frontLeftDrive.setVelocitySetpoint(commandedVelocity);
     } else {
       frontLeftDrive.setVoltage(Units.Volt.of(0));  
