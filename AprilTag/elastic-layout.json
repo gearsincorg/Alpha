@@ -1,0 +1,113 @@
+{
+  "version": 1.0,
+  "grid_size": 64,
+  "tabs": [
+    {
+      "name": "Diagnostic",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "AprilTagDetections",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 448.0,
+            "height": 384.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/AprilTagDetections",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "connected",
+            "x": 448.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/CameraPublisher/USB Camera 0/connected",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "modes",
+            "x": 576.0,
+            "y": 0.0,
+            "width": 192.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/CameraPublisher/USB Camera 0/modes",
+              "period": 0.06,
+              "data_type": "string[]",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "tagCount",
+            "x": 448.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/AprilTagVision/tagCount",
+              "period": 0.06,
+              "data_type": "int",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "detectedIds",
+            "x": 576.0,
+            "y": 128.0,
+            "width": 320.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/AprilTagVision/detectedIds",
+              "period": 0.06,
+              "data_type": "int[]",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Calibration",
+            "x": 768.0,
+            "y": 0.0,
+            "width": 448.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/AprilTagVision/Calibration",
+              "period": 0.06,
+              "data_type": "string",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Detections",
+            "x": 448.0,
+            "y": 256.0,
+            "width": 576.0,
+            "height": 192.0,
+            "type": "Large Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/AprilTagVision/Detections",
+              "period": 0.06,
+              "data_type": "string"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
