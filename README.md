@@ -12,3 +12,6 @@ This work is currently being performed with Alpha 6 WPILIB code.
 -Alpha A301 is just some basic motor run code for general testing... it will change as needed 
 
 -Alpha KiwiDrive is a legacy opmode that runs a 3-wheel kiwi drive robot.  Code was taken from Youtube video.
+
+-AprilTag is used to demonstrate Apriltag detection and processing.  Use the elastic-layout.json to display the tag/data.
+
