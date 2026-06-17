@@ -1,0 +1,14 @@
+#!/bin/sh
+# Runs on the SystemCore before the package files are removed.
+PACKAGE_NAME="photonvision"
+
+echo "Stopping $PACKAGE_NAME service..."
+if systemctl is-active "$PACKAGE_NAME.service" >/dev/null 2>&1; then
+    systemctl stop "$PACKAGE_NAME.service" || echo "Service stop may have failed, continuing..."
+fi
+
+echo "Disabling service auto-start..."
+systemctl disable "$PACKAGE_NAME.service" 2>/dev/null || echo "Service was not enabled"
+
+echo "Service stopped and disabled"
+exit 0

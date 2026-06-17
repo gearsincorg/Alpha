@@ -8,7 +8,6 @@ import org.wpilib.driverstation.DefaultUserControls;
 import org.wpilib.driverstation.UserControlsInstance;
 import org.wpilib.framework.OpModeRobot;
 import org.wpilib.hardware.hal.CANBusMap;
-
 import com.revrobotics.spark.A301;
 
 /**

@@ -16,14 +16,6 @@ import org.wpilib.hardware.expansionhub.ExpansionHubServo;
  */
 @UserControlsInstance(DefaultUserControls.class)
 public class Robot extends OpModeRobot {
-  public final ExpansionHubMotor motor0 = new ExpansionHubMotor(0, 0);
-  public final ExpansionHubMotor motor1 = new ExpansionHubMotor(0, 1);
-  public final ExpansionHubMotor motor2 = new ExpansionHubMotor(0, 2);
-  public final ExpansionHubMotor motor3 = new ExpansionHubMotor(0, 3);
-
-  public final ExpansionHubServo servo0 = new ExpansionHubServo(0, 0);
-  public final ExpansionHubServo servo1 = new ExpansionHubServo(0, 1);
-
-  /** Called once at the beginning of the robot program. */
+ /** Called once at the beginning of the robot program. */
   public Robot() {}
 }

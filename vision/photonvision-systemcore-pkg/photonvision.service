@@ -1,0 +1,33 @@
+[Unit]
+Description=PhotonVision Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=systemcore
+Group=systemcore
+# PhotonVision needs the camera device(s); AdvantageScope Lite did not, so this is unproven.
+SupplementaryGroups=video plugdev
+DeviceAllow=char-video4linux rw
+
+WorkingDirectory=/usr/local/bin/photonvision
+# Bundled JRE + the linuxarm64 backend jar (see build-ipk.sh / README).
+ExecStart=/usr/local/bin/photonvision/jre/bin/java -Xmx512m -jar /usr/local/bin/photonvision/photonvision.jar
+Restart=always
+RestartSec=5
+
+# PV writes config/calibration/logs at runtime.
+ReadWritePaths=/opt/photonvision /var/log
+
+# Sandbox: relaxed vs AdvantageScope Lite because PV touches /dev/video*.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+
+# Keep CPU-bound vision from starving the robot control loop on the shared quad-A76.
+Nice=5
+# CPUQuota=300%   # optional: cap PhotonVision at 3 of 4 cores
+
+[Install]
+WantedBy=multi-user.target

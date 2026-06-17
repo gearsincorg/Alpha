@@ -1,0 +1,13 @@
+Package: photonvision
+Version: 2027.0.0-alpha
+Description: PhotonVision computer vision backend (AprilTags, object detection)
+Section: development
+Priority: optional
+Maintainer: FILL_ME (your team)
+Source: local
+Architecture: arm64
+X-Display-Name: PhotonVision
+X-Port: 5800
+X-Has-UI: true
+X-Auto-Start: true
+X-Icon-Path: /usr/share/photonvision.png

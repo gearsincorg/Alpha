@@ -8,76 +8,76 @@ import org.wpilib.driverstation.DefaultUserControls;
 import org.wpilib.driverstation.Gamepad;
 import org.wpilib.epilogue.Logged;
 import org.wpilib.hardware.expansionhub.ExpansionHubMotor;
+import org.wpilib.hardware.hal.CANBusMap;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Teleop;
 import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.system.Timer;
 import org.wpilib.units.Units;
+import com.revrobotics.spark.A301;
+
 
 @Teleop
 @Logged
 public class CalibrateMotor extends PeriodicOpMode {
 
-  static final double VOLTAGE_STEP = 0.01;
+  static final double VOLTAGE_STEP = 0.001;
 
   final Robot robot;
   Gamepad gamepad1;
-  ExpansionHubMotor frontLeftDrive;
-
-  double  commandedVoltage  = 0;
+  final static A301 frontLeftDrive = new A301(CANBusMap.CAN_D4);
+  
+  double  commandedThrottle  = 0;
   double  commandedVelocity = 0;
   double  measuredVelocity  = 0;
   double  kS = 0;
   double  kV = 0;
+  Timer   pause = new Timer();
   
   public CalibrateMotor(Robot robot, DefaultUserControls userControls) {
     this.robot = robot;
     gamepad1 = userControls.getGamepad(0);
 
     // setup actuators
-    frontLeftDrive = robot.motor2;
-    frontLeftDrive.setDistancePerCount(1.0);
   }
 
   @Override
   public void start() {
-    commandedVoltage  = 0;
+    commandedThrottle  = 0;
     measuredVelocity  = 0;
     kS = 0;
     kV = 0;
+    frontLeftDrive.setThrottle(0);  
+    pause.restart();
   }
 
   @Override
   public void periodic() {
 
     // Ramp up voltage to measure velocity response.
-    if (robot.isEnabled()) {
+    if (robot.isEnabled() && (pause.get() > 1)) {
 
-      measuredVelocity = frontLeftDrive.getEncoderVelocity();
+      measuredVelocity = frontLeftDrive.getEncoderVelocity().get(null);
 
-      if ((kS == 0) && (measuredVelocity > 0)) {
-        kS = commandedVoltage;
+      if ((kS == 0) && (measuredVelocity > 1)) {
+        kS = commandedThrottle;
       }
 
-      if (commandedVoltage >= 10) {
+      if (commandedThrottle >= 1) {
         kV = (10.0 - kS) / (measuredVelocity);
       } else {
-        commandedVoltage += VOLTAGE_STEP;
+        commandedThrottle += VOLTAGE_STEP;
       }
 
-      SmartDashboard.putNumber("voltage",  commandedVoltage);
+      SmartDashboard.putNumber("throttlee",  commandedThrottle);
       SmartDashboard.putNumber("velocity", measuredVelocity);
       SmartDashboard.putNumber("kS", kS);
       SmartDashboard.putNumber("kV", kV);
 
-      frontLeftDrive.setVoltage(Units.Volt.of(commandedVoltage));  
+      frontLeftDrive.setThrottle(commandedThrottle);
       
     } else {
-      frontLeftDrive.setVoltage(Units.Volt.of(0));  
+      frontLeftDrive.setThrottle(0);  
     }
   }
 }
-
-// stashed code
-// frontLeftDrive.setThrottle(-gamepad1.getLeftY());   // works OK
-// frontLeftDrive.setVelocitySetpoint(-gamepad1.getLeftY());
-// frontLeftDrive.getVelocityConstants().setPID(0, 0, 0).setFF(0.5, 0.004);
