@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<!--
+  Camera calibrations, keyed by USB (vid, pid) and capture resolution.
+
+  Each <Camera> is identified by its numeric USB vendor id (vid) and product id (pid).
+  Each <Calibration> gives the intrinsics for one capture resolution:
+    size           (int pair):   width height
+    focalLength    (float pair): fx fy   (pixels)
+    principalPoint (float pair): cx cy   (pixels)
+
+  Values and separators are forgiving: a trailing 'f' and either spaces or commas
+  between the two numbers are both accepted (e.g. "821.993f, 821.993f").
+
+  Loaded at runtime by WebcamCalibrations; matched against UsbCamera.getInfo().
+-->
+<Calibrations>
+
+    <!-- ======================================================================================= -->
+
+    <!-- Microsoft Lifecam HD 3000 v1, Calibrated by PTC using unknown tooling -->
+    <Camera vid="0x045E" pid="0x0779">
+        <Calibration
+            size="640 480"
+            focalLength="678.154f, 678.17f"
+            principalPoint="318.135f, 228.374f"
+            />
+    </Camera>
+
+    <!-- ======================================================================================= -->
+
+    <!-- Microsoft Lifecam HD 3000 v2, Calibrated by PTC using unknown tooling -->
+    <Camera vid="0x045E" pid="0x0810">
+        <Calibration
+            size="640 480"
+            focalLength="678.154f, 678.17f"
+            principalPoint="318.135f, 228.374f"
+            />
+    </Camera>
+
+    <!-- ======================================================================================= -->
+
+    <!-- Logitech HD Webcam C310, Calibrated by by Robert Atkinson, 2018.05.30 using 3DF Zephyr -->
+    <Camera vid="0x046D" pid="0x081B">
+        <Calibration
+            size="640 480"
+            focalLength="821.993f, 821.993f"
+            principalPoint="330.489f, 248.997f"
+            />
+
+        <Calibration
+            size="640 360"
+            focalLength="715.307f, 715.307f"
+            principalPoint="319.759f, 188.917f"
+            />
+    </Camera>
+
+    <!-- ======================================================================================= -->
+
+    <!-- Logitech HD Pro Webcam C920, Calibrated by Robert Atkinson, 2018.05.30 using 3DF Zephyr -->
+    <Camera vid="0x046D" pid="0x082D">
+
+        <Calibration
+            size="640 480"
+            focalLength="622.001f, 622.001f"
+            principalPoint="319.803f, 241.251f"
+            />
+
+        <Calibration
+            size="800 600"
+            focalLength="775.79f, 775.79f"
+            principalPoint="400.898f, 300.79f"
+            />
+
+        <Calibration
+            size="640 360"
+            focalLength="463.566f, 463.566f"
+            principalPoint="316.402f, 176.412f"
+            />
+
+        <Calibration
+            size="1920, 1080"
+            focalLength="1385.92f , 1385.92f"
+            principalPoint="951.982f , 534.084f"
+            />
+
+        <Calibration
+            size="800, 448"
+            focalLength="578.272f , 578.272f"
+            principalPoint="402.145f , 221.506f"
+            />
+
+        <Calibration
+            size="864, 480"
+            focalLength="626.909f , 626.909f"
+            principalPoint="426.007f , 236.834f"
+            />
+
+    </Camera>
+
+    <!-- ======================================================================================= -->
+
+    <!-- Logitech HD Webcam C270, Calibrated by Noah Andrews, 2019.03.13 using 3DF Zephyr -->
+    <Camera vid="0x046D" pid="0x0825">
+        <Calibration
+            size="640 480"
+            focalLength="822.317f, 822.317f"
+            principalPoint="319.495f, 242.502f"
+            />
+    </Camera>
+
+    <!-- ======================================================================================= -->
+
+</Calibrations>
